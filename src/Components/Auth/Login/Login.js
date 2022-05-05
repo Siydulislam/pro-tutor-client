@@ -17,7 +17,6 @@ const Login = () => {
         signInWithPopup(auth, googleProvider)
             .then(result => {
                 const user = result.user;
-                console.log(user);
                 navigate("/checkout");
             })
             .catch(error => {
@@ -58,7 +57,6 @@ const Login = () => {
                 .then((userCredential) => {
                     const user = userCredential.user;
                     toast.success("Login successfully", { id: "created" });
-                    console.log(user);
                     navigate("/checkout");
                 })
                 .catch((error) => {

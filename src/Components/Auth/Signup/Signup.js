@@ -18,7 +18,6 @@ const Signup = () => {
         signInWithPopup(auth, googleProvider)
             .then(result => {
                 const user = result.user;
-                console.log(user);
                 navigate("/checkout");
             })
             .catch(error => {
@@ -83,7 +82,6 @@ const Signup = () => {
             createUserWithEmailAndPassword(auth, email.value, password.value)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    console.log(user);
                     toast.success("Account created successfully", { id: "created" });
                     navigate("/checkout");
                 })

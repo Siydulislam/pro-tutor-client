@@ -1,11 +1,7 @@
 import React from 'react';
 
 const Checkout = () => {
-    return (
-        <div>
-            <h1>Checkout</h1>
-        </div>
-    );
+    return <h1 className="d-flex justify-content-center align-items-center">Your Checkout Process is Successfully completed.</h1>
 };
 
 export default Checkout;
