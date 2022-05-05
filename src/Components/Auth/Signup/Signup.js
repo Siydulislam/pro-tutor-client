@@ -10,7 +10,7 @@ const googleProvider = new GoogleAuthProvider();
 const Signup = () => {
     const [email, setEmail] = useState({ value: "", error: "" });
     const [password, setPassword] = useState({ value: "", error: "" });
-    const [passwordConfirmation, setPasswordConfirmation] = useState({ value: "", error: "" });
+    const [confirmPassword, setConfirmPassword] = useState({ value: "", error: "" });
 
     const navigate = useNavigate();
 
@@ -22,7 +22,8 @@ const Signup = () => {
                 navigate("/checkout");
             })
             .catch(error => {
-                console.log(error);
+                const errorMessage = error.message;
+                console.log(errorMessage);
             })
     }
 
@@ -37,13 +38,17 @@ const Signup = () => {
 
     const handlePassword = (event) => {
         const passwordInput = event.target.value;
-
-        if (passwordInput.length < 7) {
-            setPassword({ value: "", error: "Password too short" });
+        if (passwordInput.length < 8) {
+            setPassword({ value: "", error: "Password must contain 8 characters" });
         } else if (!/(?=.*[A-Z])/.test(passwordInput)) {
             setPassword({
                 value: "",
                 error: "Password must contain a capital letter",
+            });
+        } else if (!/(?=.*[a-z])/.test(passwordInput)) {
+            setPassword({
+                value: "",
+                error: "Password must contain a small letter",
             });
         } else {
             setPassword({ value: passwordInput, error: "" });
@@ -51,12 +56,12 @@ const Signup = () => {
     };
 
     const handleConfirmPassword = (event) => {
-        const confirmationInput = event.target.value;
+        const confirmPasswordInput = event.target.value;
 
-        if (confirmationInput !== password.value) {
-            setPasswordConfirmation({ value: "", error: "Password Mismatched" });
+        if (confirmPasswordInput !== password.value) {
+            setConfirmPassword({ value: "", error: "Password didn't match" });
         } else {
-            setPasswordConfirmation({ value: confirmationInput, error: "" });
+            setConfirmPassword({ value: confirmPasswordInput, error: "" });
         }
     };
 
@@ -68,18 +73,18 @@ const Signup = () => {
         if (password.value === "") {
             setPassword({ value: "", error: "Password is required" });
         }
-        if (passwordConfirmation.value === "") {
-            setPasswordConfirmation({
+        if (confirmPassword.value === "") {
+            setConfirmPassword({
                 value: "",
                 error: "Password confirmation is required",
             });
         }
-        if (email.value && password.value === passwordConfirmation.value) {
+        if (email.value && password.value === confirmPassword.value) {
             createUserWithEmailAndPassword(auth, email.value, password.value)
                 .then((userCredential) => {
                     const user = userCredential.user;
                     console.log(user);
-                    toast.success("Account created", { id: "created" });
+                    toast.success("Account created successfully", { id: "created" });
                     navigate("/checkout");
                 })
                 .catch((error) => {
@@ -95,28 +100,28 @@ const Signup = () => {
 
     return (
         <div className="container mt-5">
+            <h2 className="text-center">Signup</h2>
             <form onSubmit={handleSignup} className="w-50 mx-auto">
-                <h2>Signup</h2>
                 <div className="mb-3">
-                    <label htmlFor="Email1" className="form-label">Email address</label>
-                    <input onBlur={handleEmail} type="text" className="form-control" name="email" id="email1" aria-describedby="emailHelp" />
+                    <label htmlFor="email" className="form-label">Email address</label>
+                    <input onBlur={handleEmail} type="email" className="form-control" name="email" id="email1" aria-describedby="emailHelp" />
                 </div>
-                {email.error && (
+                {email?.error && (
                     <p className="text-danger">{email.error}</p>
                 )}
                 <div className="mb-3">
-                    <label htmlFor="Password1" className="form-label">Password</label>
+                    <label htmlFor="Password" className="form-label">Password</label>
                     <input onBlur={handlePassword} type="password" name='password' className="form-control" id="password" />
                 </div>
-                {password.error && (
+                {password?.error && (
                     <p className="text-danger">{password.error}</p>
                 )}
                 <div className="mb-3">
-                    <label htmlFor="Password1" className="form-label">Confirm Password</label>
-                    <input onBlur={handleConfirmPassword} type="password" name='confirmPass' className="form-control" id="confirmPassword" />
+                    <label htmlFor="Password" className="form-label">Confirm Password</label>
+                    <input onBlur={handleConfirmPassword} type="password" name='confirmPassword' className="form-control" id="confirmPassword" />
                 </div>
-                {passwordConfirmation.error && (
-                    <p className="text-danger">{passwordConfirmation.error}</p>
+                {confirmPassword?.error && (
+                    <p className="text-danger">{confirmPassword.error}</p>
                 )}
                 <button type="submit" className="btn btn-primary">Signup</button>
             </form>

@@ -1,8 +1,32 @@
-import React from 'react';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
-import './Header.css';
+import { auth } from '../../../Firebase/Firebase.init';
 
 const Header = () => {
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setUser(user);
+            } else {
+                setUser({});
+            }
+        })
+    }, []);
+
+    const handleLogout = () => {
+        signOut(auth)
+            .then(() => {
+                toast.success("Logout successfully", { id: "created" });
+            })
+            .catch(error => {
+                toast.error("Something went wrong", { id: "error" });
+            });
+    };
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container">
@@ -22,9 +46,15 @@ const Header = () => {
                             <Link className="nav-link" to="/contact">Contact</Link>
                         </li>
                     </ul>
-                    <ul className="navbar-nav ml-auto mb-2 mb-lg-0">
-                        <Link className="nav-link" to="/login">Login</Link>
-                    </ul>
+                    {user?.uid ? (
+                        <ul className="navbar-nav ml-auto mb-2 mb-lg-0">
+                            <Link onClick={handleLogout} to="/login" className="nav-link">Logout</Link>
+                        </ul>
+                    ) : (
+                        <ul className="navbar-nav ml-auto mb-2 mb-lg-0">
+                            <Link className="nav-link" to="/login">Login</Link>
+                        </ul>
+                    )}
                 </div>
             </div>
         </nav>
