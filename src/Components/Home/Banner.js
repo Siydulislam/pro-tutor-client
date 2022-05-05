@@ -15,22 +15,22 @@ const Banner = () => {
                 <div className="carousel-item active">
                     <img src={slider1} className="d-block w-100" alt="..." />
                     <div className="carousel-caption text-dark mb-5">
-                        <h5>First slide label</h5>
-                        <p>Some representative placeholder content for the first slide.</p>
+                        <h5>Project Report Writing</h5>
+                        <p>A simple, actionable, step-by-step guide to writing the perfect project report.</p>
                     </div>
                 </div>
                 <div className="carousel-item">
                     <img src={slider2} className="d-block w-100" alt="..." />
                     <div className="carousel-caption text-dark mb-5">
-                        <h5>Second slide label</h5>
-                        <p>Some representative placeholder content for the second slide.</p>
+                        <h5>Presentation Writing</h5>
+                        <p>Every step you need to write and deliver a powerful presentation that persuades, inspires or informs, including how to nail an online presentation.</p>
                     </div>
                 </div>
                 <div className="carousel-item">
                     <img src={slider3} className="d-block w-100 bg-opacity-50" alt="..." />
                     <div className="carousel-caption text-dark mb-5">
-                        <h5>Third slide label</h5>
-                        <p>Some representative placeholder content for the third slide.</p>
+                        <h5>Math Problem Solver</h5>
+                        <p>Free math problem solver answers your algebra homework questions with step-by-step explanations.</p>
                     </div>
                 </div>
             </div>
