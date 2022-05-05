@@ -48,6 +48,9 @@ const Header = () => {
                         <li className="nav-item">
                             <Link className="nav-link" to="/contact">Contact</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/about">About</Link>
+                        </li>
                     </ul>
                     {user?.uid ? (
                         <ul className="navbar-nav ml-auto mb-2 mb-lg-0">
