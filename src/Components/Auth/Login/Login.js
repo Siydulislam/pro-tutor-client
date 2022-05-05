@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
@@ -71,6 +71,13 @@ const Login = () => {
         }
     };
 
+    const handlePasswordReset = () => {
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                toast.success("Password reset email sent", { id: "error" });
+            })
+    }
+
     return (
         <div className="container mt-5">
             <h2 className="text-center">Login</h2>
@@ -89,6 +96,7 @@ const Login = () => {
                 {password.error && (
                     <p className="text-danger">{password.error}</p>
                 )}
+                <p onClick={handlePasswordReset} className="text-primary mb-3" style={{ cursor: "pointer", display: "block", border: "none" }}>Forget Password?</p>
                 <button type="submit" className="btn btn-primary">Login</button>
             </form>
             <p className="text-center">New to ProTutor? <Link to="/signup">Create New Account</Link></p>

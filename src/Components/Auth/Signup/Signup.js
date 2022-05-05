@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import googleLogo from '../../../Assets/images/google-logo.png';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, sendEmailVerification, signInWithPopup } from "firebase/auth";
 import { auth } from '../../../Firebase/Firebase.init';
 import toast from 'react-hot-toast';
 
@@ -64,6 +64,13 @@ const Signup = () => {
         }
     };
 
+    const verifyEmail = () => {
+        sendEmailVerification(auth.currentUser)
+            .then(() => {
+                toast.success("Verify your email", { id: "send" });
+            })
+    }
+
     const handleSignup = (event) => {
         event.preventDefault();
         if (email.value === "") {
@@ -82,6 +89,7 @@ const Signup = () => {
             createUserWithEmailAndPassword(auth, email.value, password.value)
                 .then((userCredential) => {
                     const user = userCredential.user;
+                    verifyEmail();
                     toast.success("Account created successfully", { id: "created" });
                     navigate("/checkout");
                 })
